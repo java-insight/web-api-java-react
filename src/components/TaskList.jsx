@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-const axios = require('axios');
+import React from 'react';
 
 const TaskList = (props) => {
     return (
@@ -10,7 +9,7 @@ const TaskList = (props) => {
                 <div class="td"> Status</div>
                 <div class="td"> Action</div>
             </div>
-        {props.tasks.map(t => <Task key={t.id} task={t} onRefreshTask= {props.onRefreshTask}/>)} 
+        {props.tasks.map(t => <Task key={t.id} task={t} onDeleteTask= {props.onDeleteTask}/>)} 
         </div>
     );
 }
@@ -18,27 +17,11 @@ const TaskList = (props) => {
 const Task = (props) => {
 
     const task = props.task;
-    const endpoint = `/api/v1/tasks`
-
-    const deleteTask = async (id) =>  {
-        const resp = await axios.delete(`${endpoint}/${id}`);
-        console.log(resp.status);
-    }
-
-    const refreshTaskList = async () => {
-        fetch(endpoint)
-          .then((res) => res.json())
-          .then((taskListData) => {
-            props.onRefreshTask(taskListData) });   
-    }
 
     const handleDelete = (event) => {
         event.preventDefault();
-        console.log('Delete clicked');
-        deleteTask(task.id)
-        let data = refreshTaskList()
-        console.log(data);
-        refreshTaskList();
+        //console.log('Delete clicked');
+        props.onDeleteTask(task.id)  
     }
 
     return (             

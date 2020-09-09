@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from 'react';
-const axios = require('axios');
+import React, { useState } from 'react';
 
 const Form = (props) => {
-    const endpoint = `/api/v1/tasks`
     const [state,setState] = useState({name: ''});     
 
     const addTask = async (event) => {
         event.preventDefault();
-        const params = {      
-            name: state.name,    
-        }
-        
-        const resp = await axios.post(endpoint,params);
-        props.onClickAdd(resp.data); 
+        props.onClickAdd(state.name); 
         setState({name: ''});   
     }
 
@@ -23,11 +16,11 @@ const Form = (props) => {
     return (
         <form >
             <input 
-            type="text" 
-            placeholder="Task Name"         
-            value={state.name}
-            onChange={handleOnChange}
-            required/>
+            type = "text" 
+            placeholder = "Task Name"         
+            value = {state.name}
+            onChange = {handleOnChange}
+            required />
             <button onClick={addTask}> Add Task </button>
         </form>
     );

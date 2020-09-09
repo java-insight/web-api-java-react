@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
+//import {endpoint} from './Config';
 import TaskHeader from './TaskHeader';
 import TaskList from './TaskList';
 import Form from './Form';
@@ -35,10 +36,15 @@ const App = (props) => {
             );
           });
       }, [setState]);
-
 	
-    const addtask = (taskData) => {
-        console.log(taskData);
+   
+    const addtask = async (taskName) => {
+        console.log('Task_Name: '+ taskName);
+        const params = {      
+            name: taskName,    
+        }
+        const resp = await axios.post(endpoint,params);
+        const taskData = resp.data
         setState( 
             prevState => (
                 { 
@@ -48,6 +54,21 @@ const App = (props) => {
             )
         );            
     }
+
+    
+    const deleteTask = async (id) =>  {
+        const resp = await axios.delete(`${endpoint}/${id}`);
+        console.log(resp.status);
+        refreshTaskList();
+    }
+
+    const refreshTaskList = async () => {
+        fetch(endpoint)
+          .then((res) => res.json())
+          .then((taskListData) => {
+            refreshTask(taskListData) });   
+    }
+
 
     const refreshTask = (taskListData) => {
         setState( 
@@ -64,7 +85,7 @@ const App = (props) => {
         <div className="App">
             <TaskHeader title={state.title}/>    
             <Form  onClickAdd={addtask}/>   
-            <TaskList tasks={state.tasks} onRefreshTask={refreshTask}/>       
+            <TaskList tasks={state.tasks} onDeleteTask={deleteTask}/>       
         </div>
     );
 }
