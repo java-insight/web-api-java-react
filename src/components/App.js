@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 //import {endpoint} from './Config';
-import TaskHeader from './TaskHeader';
-import TaskList from './TaskList';
-import Form from './Form';
+import TaskHeader from './TaskHeader.jsx';
+import TaskList from './TaskList.jsx';
+import Form from './Form.jsx';
 
 const axios = require('axios');
 
